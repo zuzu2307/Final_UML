@@ -1,0 +1,51 @@
+@startuml
+left to right direction
+
+skinparam packageStyle rectangle
+actor GeneralUser
+actor Student
+actor Administrator as Admin
+
+rectangle "Library Management and Loan System" {
+'---------- Start adding new feature ---------------
+
+    usecase "Book Reservation\n(本の予約)" as u_BR #fff86b
+    usecase "Renew Loan\n(貸出延長)" as u_renew #fff86b
+
+' ---------- End adding new feature ----------------
+    usecase "User Registration\n(利用者登録)" as u_reg
+    usecase "Borrowing Procedure\n(貸出手続)" as u_borrow
+    usecase "Return Procedure\n(返却手続)" as u_return
+    usecase "Login\n(ログインする)" as u_login
+    usecase "Display Registered Users\n(登録ユーザ一覧表示)" as u_dis_reg
+    usecase "Display Users with Borrowed Books\n(貸出中ユーザ一覧表示)" as u_dis_borrow
+    usecase "AV Room Reservation\n(AV室予約)" as u_av
+
+
+    u_borrow ..> u_login : <<Include>>
+    u_return ..> u_login : <<Include>>
+    u_av ..> u_login : <<Include>>
+'---------- Start adding new feature ---------------
+
+    u_BR ..> u_login : <<Include>>
+    u_renew ..> u_login : <<Include>>
+
+' ---------- End adding new feature ----------------
+}
+GeneralUser -- u_reg
+GeneralUser -- u_borrow
+GeneralUser -- u_return
+
+u_dis_reg --- Admin
+u_dis_borrow --- Admin
+
+Student -left-|> GeneralUser
+Student --- u_av
+
+'---------- Start adding new feature ---------------
+
+GeneralUser -- u_BR
+GeneralUser -- u_renew
+
+' ---------- End adding new feature ----------------
+@enduml
