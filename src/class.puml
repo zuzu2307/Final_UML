@@ -1,27 +1,78 @@
 @startuml
-'https://plantuml.com/class-diagram
+left to right direction
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+class Authentication{
+    -username: String
+    -password: String
+    -email: String
+    +register(username: String, password: String, email: String): void
+    +login(username: String, password: String): void
+    +logout(): void
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class User {
+    -userID: String
+    -username: String
+    -email: String
+    -password: String
+    +getUserID() : String
 }
+
+class Student {
+    -studentID: String
+    +getStudentID() : String
+}
+class Book {
+    -bookID: String
+    -title: String
+    -author: String
+    -genre: String
+    -availability: Boolean
+    +getBookID() : String
+}
+
+class Loan {
+    -loanID: String
+    -userID: String
+    -bookID: String[]
+    -borrowDate: Date
+    -dueDate: Date
+    -returnDate: Date
+    +createLoan(userID: String, bookID: String[]): void
+    +renewLoan(loanID: String): void
+    +closeLoan(loanID: String): void
+}
+
+class Administrator {
+    -adminID: String
+    +displayRegisteredUsers(userID: String): void
+    +displayUsersWithBorrowedBooks(reservationID: String): void
+}
+
+class Reservation {
+    -reservationID: String
+    -studentID: String
+    -bookID: String
+    -reservationDate: Date
+    +createReservation(studentID: String, bookID: String): void
+    +cancelReservation(studentID: String, bookID: String): void
+}
+
+class AVRoom {
+    -roomID: String
+    -studentID: String
+    -availability: Boolean
+    +reserveRoom(roomID: String, studentID: String): void
+    +checkAvailability(roomID: String): Boolean
+}
+
+Authentication "1" -- "1" User
+User <|-right- Student
+User "1" -- "0..*" Loan : creates
+Student "1" -- "0..*" Reservation : makes
+Student "1" -- "0..*" AVRoom : reserves
+Book "1...5" -up- "\n0..*" Loan : is borrowed in
+Book "\n1...5" -up- "0..*" Reservation : is reserved in
+Administrator "           1"-right- "              0..*" User : "                      monitor"
 
 @enduml
