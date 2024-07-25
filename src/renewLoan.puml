@@ -1,0 +1,22 @@
+@startuml
+actor User
+participant Monitor
+participant Authentication
+participant Loan
+
+User -> Monitor: open
+Monitor -> Authentication: login(username, password)
+Authentication -> Monitor: login success
+Monitor -> User: display library page
+
+User -> Monitor: select return book option
+Monitor -> Loan: getLoanList(userID)
+Loan -> Monitor: list of user's loan
+Monitor -> User: display user's loan lists
+
+User -> Monitor: select loan to renew
+Monitor -> Loan: renewReturnDate(userID, LoanID)
+Loan -> Loan: renewLoan()
+Loan -> Monitor: loan renewed
+Monitor -> User: display renewal confirmation
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+actor Student
+participant Monitor
+participant Authentication
+participant Reservation
+participant Book
+
+Student -> Monitor: open
+Monitor -> Authentication: login(username, password)
+Authentication -> Monitor: login success
+Monitor -> Student: display library page
+
+Student -> Monitor: submit book details
+Monitor -> Book: searchBook(bookDetails)
+Book -> Monitor: book details
+Monitor -> Student: display book details
+
+Student -> Monitor: click reserve book
+Monitor -> Reservation: reserveBook(studentID, bookID)
+Reservation -> Book: createReservation(studentID, bookID,  reservationType)
+Reservation -> Monitor: reservation created
+Monitor -> Student: display reservation confirmation
+@enduml

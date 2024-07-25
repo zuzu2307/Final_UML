@@ -1,0 +1,23 @@
+@startuml
+actor User
+participant Monitor
+participant Authentication
+participant Loan
+participant Book
+
+User -> Monitor: open
+Monitor -> Authentication: login(username, password)
+Authentication -> Monitor: login success
+Monitor -> User: display library page
+
+User -> Monitor: submit book details
+Monitor -> Book: searchBook(bookDetails)
+Book -> Monitor: book details
+Monitor -> User: display book details
+
+User -> Monitor: click borrow books
+Monitor -> Loan: borrowBooks(bookID)
+Loan -> Book: createLoan(userID, bookID)
+Loan -> Monitor: loan created
+Monitor -> User: display loan details
+@enduml

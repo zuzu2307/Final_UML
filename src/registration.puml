@@ -1,0 +1,13 @@
+@startuml
+actor User
+participant Monitor
+participant Authentication
+
+User -> Monitor: open registration form
+Monitor -> User: display registration form
+
+User -> Monitor: submit registration details (username, password, email)
+Monitor -> Authentication: register(username, password, email)
+Authentication -> Monitor: registration success
+Monitor -> User: display success message
+@enduml

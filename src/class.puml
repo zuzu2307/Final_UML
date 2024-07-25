@@ -15,20 +15,27 @@ class User {
     -username: String
     -email: String
     -password: String
-    +getUserID() : String
+    -loanID: String[]
+    +searchBook(bookDetails: String): Book[]
+    +getRoomList(): AVRoom[]
+    +borrowBooks(bookID: String[]): void
+    +returnBooks(loanID: String): void
+    +renewReturnDate(loanID: String): void
 }
 
 class Student {
     -studentID: String
-    +getStudentID() : String
+    +reserveBook(bookID: String[]): void
+    +reserveRoom(roomID: String[]): void
 }
+
 class Book {
     -bookID: String
     -title: String
     -author: String
     -genre: String
-    -availability: Boolean
-    +getBookID() : String
+    -loanStatus: Boolean
+    -reserveStatus: Boolean
 }
 
 class Loan {
@@ -39,40 +46,42 @@ class Loan {
     -dueDate: Date
     -returnDate: Date
     +createLoan(userID: String, bookID: String[]): void
-    +renewLoan(loanID: String): void
-    +closeLoan(loanID: String): void
+    +renewLoan(): void
+    +closeLoan(): void
 }
 
 class Administrator {
     -adminID: String
-    +displayRegisteredUsers(userID: String): void
-    +displayUsersWithBorrowedBooks(reservationID: String): void
+    +displayRegisteredUsers(): void
+    +displayUsersWithBorrowedBooks(): void
 }
 
 class Reservation {
     -reservationID: String
     -studentID: String
-    -bookID: String
-    -reservationDate: Date
-    +createReservation(studentID: String, bookID: String): void
-    +cancelReservation(studentID: String, bookID: String): void
+    -itemID: String[]
+    -reservationType: String
+    +createReservation(studentID: String, itemID: String[], reservationType: String): void
+    +cancelReservation(): void
 }
+
 
 class AVRoom {
     -roomID: String
     -studentID: String
-    -availability: Boolean
-    +reserveRoom(roomID: String, studentID: String): void
-    +checkAvailability(roomID: String): Boolean
+    -reserveStatus: Boolean
 }
 
-Authentication "1" -- "1" User
+User -up-> Authentication: uses
+User ---> Book: queries
+User --> AVRoom: queries
 User <|-right- Student
-User "1" -- "0..*" Loan : creates
-Student "1" -- "0..*" Reservation : makes
-Student "1" -- "0..*" AVRoom : reserves
-Book "1...5" -up- "\n0..*" Loan : is borrowed in
-Book "\n1...5" -up- "0..*" Reservation : is reserved in
-Administrator "           1"-right- "              0..*" User : "                      monitor"
-
+User "1" -- "\n0..*" Loan: creates
+Student "1" -- "0..*" Reservation: makes
+AVRoom "1" -right- "0..*" Reservation: "                              is reserved in"
+Book "1...5" -up- "\n0..*" Loan: is borrowed in
+Book "\n1...5" -up- "0..*" Reservation: is reserved in
+Administrator -right-> User: "                   queries"
+Administrator -up-> Authentication: uses
+Administrator --> Loan : queries
 @enduml

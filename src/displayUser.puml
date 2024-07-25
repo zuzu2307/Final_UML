@@ -1,0 +1,25 @@
+@startuml
+actor Administrator
+participant Monitor
+participant Authentication
+participant User
+participant Loan
+
+Administrator -> Monitor: open
+Monitor -> Authentication: login(username, password)
+Authentication -> Monitor: login success
+Monitor -> Administrator: display admin page
+
+
+
+alt All Registration User
+    Administrator -> Monitor: select display registered users
+    Monitor -> User: displayRegisteredUsers()
+    User -> Monitor: list of registered users
+    Monitor -> Administrator: display list of registered users
+else With Borrowed Books
+    Monitor -> Loan: displayUsersWithBorrowedBooks()
+    Loan -> Monitor: list of loans
+    Monitor -> Administrator: display users with borrowed books
+end
+@enduml
