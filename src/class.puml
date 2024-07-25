@@ -62,7 +62,6 @@ class Reservation {
     -itemID: String[]
     -reservationType: String
     +createReservation(studentID: String, itemID: String[], reservationType: String): void
-    +cancelReservation(): void
 }
 
 
