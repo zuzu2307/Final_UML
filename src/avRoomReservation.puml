@@ -16,7 +16,7 @@ AVRoom -> Monitor: room details
 Monitor -> Student: display room details
 
 Student -> Monitor: click reserve room
-Monitor -> Reservation: reserveRoom(studentID, roomID)
+Monitor -> Reservation: reserveRoom(roomID)
 Reservation -> AVRoom: createReservation(studentID, roomID, reservationType)
 Reservation -> Monitor: reservation created
 Monitor -> Student: display reservation confirmation

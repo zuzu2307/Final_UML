@@ -18,6 +18,7 @@ alt All Registration User
     User -> Monitor: list of registered users
     Monitor -> Administrator: display list of registered users
 else With Borrowed Books
+    Administrator -> Monitor: select display users with borrowed books
     Monitor -> Loan: displayUsersWithBorrowedBooks()
     Loan -> Monitor: list of loans
     Monitor -> Administrator: display users with borrowed books

@@ -11,12 +11,12 @@ Authentication -> Monitor: login success
 Monitor -> User: display library page
 
 User -> Monitor: select return book option
-Monitor -> Loan: getLoanList(userID)
+Monitor -> Loan: getLoanList()
 Loan -> Monitor: list of user's loan
 Monitor -> User: display user's loan lists
 
 User -> Monitor: select loan to return
-Monitor -> Loan: returnBooks(userID, loanID)
+Monitor -> Loan: returnBooks(loanID)
 Loan -> Book: closeLoan()
 Loan -> Monitor: return confirmation
 Monitor -> User: display return confirmation

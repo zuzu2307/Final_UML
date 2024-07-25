@@ -16,7 +16,7 @@ Book -> Monitor: book details
 Monitor -> Student: display book details
 
 Student -> Monitor: click reserve book
-Monitor -> Reservation: reserveBook(studentID, bookID)
+Monitor -> Reservation: reserveBook(bookID)
 Reservation -> Book: createReservation(studentID, bookID,  reservationType)
 Reservation -> Monitor: reservation created
 Monitor -> Student: display reservation confirmation
