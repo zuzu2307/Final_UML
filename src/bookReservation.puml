@@ -5,19 +5,28 @@ participant Authentication
 participant Reservation
 participant Book
 
-Student -> Monitor: open
+Student -> Monitor: open Login page
+activate Monitor
 Monitor -> Authentication: login(username, password)
+activate Authentication
 Authentication -> Monitor: login success
+deactivate Authentication
 Monitor -> Student: display library page
 
 Student -> Monitor: submit book details
 Monitor -> Book: searchBook(bookDetails)
+activate Book
 Book -> Monitor: book details
+deactivate Book
 Monitor -> Student: display book details
 
 Student -> Monitor: click reserve book
 Monitor -> Reservation: reserveBook(bookID)
+activate Reservation
 Reservation -> Book: createReservation(studentID, bookID,  reservationType)
+activate Book
+deactivate Book
 Reservation -> Monitor: reservation created
+deactivate Reservation
 Monitor -> Student: display reservation confirmation
 @enduml

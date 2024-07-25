@@ -5,19 +5,30 @@ participant Authentication
 participant Loan
 participant Book
 
-User -> Monitor: open
+User -> Monitor: open Login page
+activate Monitor
 Monitor -> Authentication: login(username, password)
+activate Authentication
 Authentication -> Monitor: login success
+deactivate Authentication
 Monitor -> User: display library page
 
 User -> Monitor: submit book details
 Monitor -> Book: searchBook(bookDetails)
+activate Book
 Book -> Monitor: book details
+deactivate Book
 Monitor -> User: display book details
+
 
 User -> Monitor: click borrow books
 Monitor -> Loan: borrowBooks(bookID)
+activate Loan
+
 Loan -> Book: createLoan(userID, bookID)
+activate Book
+deactivate Book
 Loan -> Monitor: loan created
+deactivate Loan
 Monitor -> User: display loan details
 @enduml

@@ -2,25 +2,37 @@
 actor Administrator
 participant Monitor
 participant Authentication
-participant User
 participant Loan
+participant User
 
-Administrator -> Monitor: open
+
+Administrator -> Monitor: open Login page
+activate Monitor
 Monitor -> Authentication: login(username, password)
+activate Authentication
 Authentication -> Monitor: login success
-Monitor -> Administrator: display admin page
+deactivate Authentication
+Monitor -> Administrator: display library page
 
 
 
 alt All Registration User
     Administrator -> Monitor: select display registered users
     Monitor -> User: displayRegisteredUsers()
+    activate User
     User -> Monitor: list of registered users
+    deactivate User
     Monitor -> Administrator: display list of registered users
 else With Borrowed Books
     Administrator -> Monitor: select display users with borrowed books
     Monitor -> Loan: displayUsersWithBorrowedBooks()
-    Loan -> Monitor: list of loans
+    activate Loan
+    Loan -> User: send userID
+    activate User
+    User -> Loan: return user details
+    deactivate User
+    Loan -> Monitor: list of users
+    deactivate Loan
     Monitor -> Administrator: display users with borrowed books
 end
 @enduml

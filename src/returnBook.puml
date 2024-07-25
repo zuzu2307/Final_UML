@@ -5,19 +5,28 @@ participant Authentication
 participant Loan
 participant Book
 
-User -> Monitor: open
+User -> Monitor: open Login page
+activate Monitor
 Monitor -> Authentication: login(username, password)
+activate Authentication
 Authentication -> Monitor: login success
+deactivate Authentication
 Monitor -> User: display library page
 
 User -> Monitor: select return book option
 Monitor -> Loan: getLoanList()
+activate Loan
 Loan -> Monitor: list of user's loan
+deactivate Loan
 Monitor -> User: display user's loan lists
 
 User -> Monitor: select loan to return
 Monitor -> Loan: returnBooks(loanID)
+activate Loan
 Loan -> Book: closeLoan()
+activate Book
+deactivate Book
 Loan -> Monitor: return confirmation
+deactivate Loan
 Monitor -> User: display return confirmation
 @enduml

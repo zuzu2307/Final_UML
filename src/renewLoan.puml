@@ -4,19 +4,27 @@ participant Monitor
 participant Authentication
 participant Loan
 
-User -> Monitor: open
+User -> Monitor: open Login page
+activate Monitor
 Monitor -> Authentication: login(username, password)
+activate Authentication
 Authentication -> Monitor: login success
+deactivate Authentication
 Monitor -> User: display library page
+
 
 User -> Monitor: select return book option
 Monitor -> Loan: getLoanList()
+activate Loan
 Loan -> Monitor: list of user's loan
+deactivate Loan
 Monitor -> User: display user's loan lists
 
 User -> Monitor: select loan to renew
-Monitor -> Loan: renewReturnDate(LoanID)
+Monitor -> Loan: renewDueDate(LoanID)
+activate Loan
 Loan -> Loan: renewLoan()
 Loan -> Monitor: loan renewed
+deactivate Loan
 Monitor -> User: display renewal confirmation
 @enduml

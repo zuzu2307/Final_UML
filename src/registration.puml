@@ -4,10 +4,14 @@ participant Monitor
 participant Authentication
 
 User -> Monitor: open registration form
+activate Monitor
 Monitor -> User: display registration form
 
 User -> Monitor: submit registration details (username, password, email)
 Monitor -> Authentication: register(username, password, email)
+activate Authentication
 Authentication -> Monitor: registration success
+deactivate Authentication
 Monitor -> User: display success message
+
 @enduml
