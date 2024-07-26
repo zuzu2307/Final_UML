@@ -7,9 +7,10 @@ User -> Monitor: open registration form
 activate Monitor
 Monitor -> User: display registration form
 
-User -> Monitor: submit registration details (username, password, email)
-Monitor -> Authentication: register(username, password, email)
+User -> Monitor: type registration details (username, password, email)
+Monitor -> Authentication: submit user data (username, password, email)
 activate Authentication
+Authentication -> Authentication: register(username, password, email)
 Authentication -> Monitor: registration success
 deactivate Authentication
 Monitor -> User: display success message
