@@ -60,6 +60,7 @@ class Reservation {
     -reservationID: String
     -studentID: String
     -itemID: String[]
+    -reservationDate: String
     -reservationType: String
     +createReservation(studentID: String, itemID: String[], reservationType: String): void
 }
