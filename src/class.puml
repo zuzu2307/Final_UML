@@ -1,7 +1,7 @@
 @startuml
 left to right direction
 
-class Authentication{
+class Authentication {
     -username: String
     -password: String
     -email: String
@@ -65,7 +65,6 @@ class Reservation {
     +createReservation(studentID: String, itemID: String[], reservationType: String): void
 }
 
-
 class AVRoom {
     -roomID: String
     -studentID: String
@@ -77,7 +76,7 @@ User ---> Book: queries
 User --> AVRoom: queries
 User <|-right- Student
 User "1" -- "\n0..*" Loan: creates
-Student "1" -- "0..*" Reservation: makes
+Student "1" -- "0..*" Reservation: creates
 AVRoom "1" -right- "0..*" Reservation: "                              is reserved in"
 Book "1...5" -up- "\n0..*" Loan: is borrowed in
 Book "\n1...5" -up- "0..*" Reservation: is reserved in
