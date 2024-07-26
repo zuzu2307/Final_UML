@@ -3,6 +3,7 @@ actor Administrator
 participant Monitor
 participant Authentication
 participant Loan
+participant UserManagement
 participant User
 
 
@@ -18,21 +19,31 @@ Monitor -> Administrator: display library page
 
 alt All Registration User
     Administrator -> Monitor: select display registered users
-    Monitor -> User: displayRegisteredUsers()
+    Monitor -> UserManagement: displayRegisteredUsers()
+    activate UserManagement
+
+    UserManagement -> User: getUserData(user: User[])
     activate User
-    User -> Monitor: list of registered users
+    User -> UserManagement: user data
     deactivate User
+    UserManagement -> Monitor: list of registered users
+    deactivate UserManagement
     Monitor -> Administrator: display list of registered users
 else With Borrowed Books
     Administrator -> Monitor: select display users with borrowed books
     Monitor -> Loan: displayUsersWithBorrowedBooks()
     activate Loan
-    Loan -> User: send userID
-    activate User
-    User -> Loan: return user details
-    deactivate User
-    Loan -> Monitor: list of users
+    Loan -> UserManagement: send userID
     deactivate Loan
+    activate UserManagement
+
+    UserManagement -> User: getUserData(user: User[])
+    activate User
+    User -> UserManagement: user data
+    deactivate User
+    UserManagement -> Monitor: return user details
+    deactivate UserManagement
+
     Monitor -> Administrator: display users with borrowed books
 end
 @enduml

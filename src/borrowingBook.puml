@@ -3,6 +3,7 @@ actor User
 participant Monitor
 participant Authentication
 participant Loan
+participant BookManagement
 participant Book
 
 User -> Monitor: open Login page
@@ -14,20 +15,28 @@ deactivate Authentication
 Monitor -> User: display library page
 
 User -> Monitor: submit book details
-Monitor -> Book: searchBook(bookDetails)
+Monitor -> BookManagement: searchBook(bookDetails)
+activate BookManagement
+BookManagement -> Book: getBookData(bookDetails: String)
 activate Book
-Book -> Monitor: book details
+Book -> BookManagement: book data
 deactivate Book
-Monitor -> User: display book details
+BookManagement -> Monitor: list of book
+deactivate BookManagement
+Monitor -> User: display books
 
 
 User -> Monitor: click borrow books
 Monitor -> Loan: borrowBooks(bookID)
 activate Loan
 
-Loan -> Book: createLoan(userID, bookID)
+Loan -> BookManagement: createLoan(userID, bookID)
+activate BookManagement
+BookManagement -> Book: updateBook(book: Book)
 activate Book
 deactivate Book
+BookManagement -> Loan: confirm update
+deactivate BookManagement
 Loan -> Monitor: loan created
 deactivate Loan
 Monitor -> User: display loan details

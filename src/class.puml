@@ -17,10 +17,19 @@ class User {
     -password: String
     -loanID: String[]
     +searchBook(bookDetails: String): Book[]
+    +getLoanList(): Loan[]
     +getRoomList(): AVRoom[]
     +borrowBooks(bookID: String[]): void
     +returnBooks(loanID: String): void
     +renewReturnDate(loanID: String): void
+}
+
+class UserManagement {
+    -user: User[]
+    +getUserData(userID: String[]): User[]
+    +addUser(user: User): void
+    +updateUser(user: User): void
+    +deleteUser(userID: String): void
 }
 
 class Student {
@@ -36,6 +45,14 @@ class Book {
     -genre: String
     -loanStatus: Boolean
     -reserveStatus: Boolean
+}
+
+class BookManagement {
+    -book: Book[]
+    +getBookData(bookDetails: String): Book[]
+    +addBook(book: Book): void
+    +updateBook(book: Book): void
+    +deleteBook(bookID: String): void
 }
 
 class Loan {
@@ -71,16 +88,32 @@ class AVRoom {
     -reserveStatus: Boolean
 }
 
+class RoomManagement {
+    -room: AVRoom[]
+    +getRoomData(): AVRoom[]
+    +addRoom(room: Room): void
+    +updateRoom(room: Room): void
+    +deleteRoom(roomID: String): void
+}
+
+
 User -up-> Authentication: uses
-User ---> Book: queries
-User --> AVRoom: queries
+User ---> BookManagement: queries
+User --> RoomManagement: queries
 User <|-right- Student
 User "1" -- "\n0..*" Loan: creates
-Student "1" -- "0..*" Reservation: creates
+Student "1" -down- "0..*" Reservation: creates
+Authentication --> UserManagement: uses
+UserManagement -right-> User : "                     manages"
 AVRoom "1" -right- "0..*" Reservation: "                              is reserved in"
+BookManagement -down-> Book: "                        manages"
 Book "1...5" -up- "\n0..*" Loan: is borrowed in
-Book "\n1...5" -up- "0..*" Reservation: is reserved in
-Administrator -right-> User: "                   queries"
+Book "                                  1...5" -up- "0..*" Reservation: is reserved in
+Administrator -right-> UserManagement: "                   queries"
 Administrator -up-> Authentication: uses
 Administrator --> Loan : queries
+Loan -up-> UserManagement: uses
+Loan -right-> BookManagement: uses
+RoomManagement -right-> AVRoom: "                     manages"
+Reservation --> RoomManagement: uses
 @enduml

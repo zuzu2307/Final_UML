@@ -1,18 +1,30 @@
 @startuml
-actor User
+actor All_User
 participant Monitor
 participant Authentication
+participant UserManagement
+participant User
 
-User -> Monitor: open registration form
+
+
+All_User -> Monitor: open registration form
 activate Monitor
-Monitor -> User: display registration form
+Monitor -> All_User: display registration form
 
-User -> Monitor: type registration details (username, password, email)
+All_User -> Monitor: type registration details (username, password, email)
 Monitor -> Authentication: submit user data (username, password, email)
 activate Authentication
-Authentication -> Authentication: register(username, password, email)
+Authentication -> UserManagement: register(username, password, email)
+activate UserManagement
+UserManagement -> User: addUser(user: User)
+activate User
+User -> UserManagement: new user
+deactivate User
+UserManagement -> UserManagement: update own user[]
+UserManagement -> Authentication: send created confirmation
+deactivate UserManagement
 Authentication -> Monitor: registration success
 deactivate Authentication
-Monitor -> User: display success message
+Monitor -> All_User: display success message
 
 @enduml

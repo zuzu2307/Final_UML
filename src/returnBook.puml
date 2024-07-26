@@ -3,6 +3,7 @@ actor User
 participant Monitor
 participant Authentication
 participant Loan
+participant BookManagement
 participant Book
 
 User -> Monitor: open Login page
@@ -23,9 +24,13 @@ Monitor -> User: display user's loan lists
 User -> Monitor: select loan to return
 Monitor -> Loan: returnBooks(loanID)
 activate Loan
-Loan -> Book: closeLoan()
+Loan -> BookManagement: closeLoan()
+activate BookManagement
+BookManagement -> Book: updateBook(book: Book)
 activate Book
 deactivate Book
+BookManagement -> Loan: confirm update
+deactivate BookManagement
 Loan -> Monitor: return confirmation
 deactivate Loan
 Monitor -> User: display return confirmation

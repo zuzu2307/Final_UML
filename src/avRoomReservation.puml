@@ -3,6 +3,7 @@ actor Student
 participant Monitor
 participant Authentication
 participant Reservation
+participant RoomManagement
 participant AVRoom
 
 Student -> Monitor: open Login page
@@ -14,18 +15,26 @@ deactivate Authentication
 Monitor -> Student: display library page
 
 Student -> Monitor: select AV room reservation option
-Monitor -> AVRoom: getRoomList()
+Monitor -> RoomManagement: getRoomList()
+activate RoomManagement
+RoomManagement -> AVRoom: getRoomData()
 activate AVRoom
-AVRoom -> Monitor: room details
+AVRoom -> RoomManagement: room data
 deactivate AVRoom
-Monitor -> Student: display room details
+RoomManagement -> Monitor: list of room
+deactivate RoomManagement
+Monitor -> Student: display rooms
 
 Student -> Monitor: click reserve room
 Monitor -> Reservation: reserveRoom(roomID)
 activate Reservation
-Reservation -> AVRoom: createReservation(studentID, roomID, reservationType)
+Reservation -> RoomManagement: createReservation(studentID, roomID, reservationType)
+activate RoomManagement
+RoomManagement -> AVRoom: updateRoom(room: Room)
 activate AVRoom
 deactivate AVRoom
+RoomManagement -> Reservation: confirm update
+deactivate RoomManagement
 Reservation -> Monitor: reservation created
 deactivate Reservation
 Monitor -> Student: display reservation confirmation
